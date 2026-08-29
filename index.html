@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA VI - Cuenta Regresiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: 'Oswald', sans-serif;
+            background: #000;
+        }
+
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .bg-image.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.1) 40%,
+                rgba(0, 0, 0, 0.3) 70%,
+                rgba(0, 0, 0, 0.85) 100%
+            );
+            z-index: 2;
+        }
+
+        .content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            max-width: 450px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(4px 4px 0 #000) drop-shadow(0 0 20px rgba(255, 100, 100, 0.5));
+        }
+
+        .launch-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            color: #f0c040;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .time-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(240, 192, 64, 0.4);
+            border-radius: 8px;
+            padding: 20px 28px;
+            min-width: 130px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .time-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4.5rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 
+                0 0 15px rgba(255, 100, 100, 0.8),
+                0 0 30px rgba(255, 100, 100, 0.4);
+        }
+
+        .time-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #f0c040;
+            margin-top: 10px;
+        }
+
+        .date-text {
+            margin-top: 50px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            opacity: 0.8;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 280px;
+            }
+            
+            .launch-label {
+                font-size: 1.2rem;
+                letter-spacing: 8px;
+            }
+            
+            .countdown {
+                gap: 12px;
+            }
+            
+            .time-block {
+                min-width: 75px;
+                padding: 15px 12px;
+            }
+            
+            .time-value {
+                font-size: 2.8rem;
+            }
+            
+            .time-label {
+                font-size: 0.65rem;
+                letter-spacing: 2px;
+            }
+            
+            .date-text {
+                font-size: 0.85rem;
+                letter-spacing: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-container">
+        <div class="bg-image active" style="background-image: url('img/Jason_and_Lucia_02_landscape.jpg');"></div>
+        <div class="bg-image" style="background-image: url('img/Jason_and_Lucia_Motel_landscape.jpg');"></div>
+        <div class="bg-image" style="background-image: url('img/Brian_Heder_landscape.jpg');"></div>
+        <div class="bg-image" style="background-image: url('img/Cal_Hampton_landscape.jpg');"></div>
+        <div class="bg-image" style="background-image: url('img/Raul_Bautista_landscape.jpg');"></div>
+    </div>
+    
+    <div class="overlay"></div>
+    
+    <div class="content">
+        <img src="img/logo.png" alt="GTA VI" class="logo">
+        <p class="launch-label">Lanzamiento en:</p>
+        
+        <div class="countdown">
+            <div class="time-block">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Días</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Horas</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutos</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Segundos</div>
+            </div>
+        </div>
+        
+        <p class="date-text">19 DE NOVIEMBRE DE 2026</p>
+    </div>
+
+    <script>
+        const releaseDate = new Date('2026-11-19T00:00:00').getTime();
+        const backgrounds = document.querySelectorAll('.bg-image');
+        let currentBg = 0;
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = releaseDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function changeBackground() {
+            backgrounds[currentBg].classList.remove('active');
+            currentBg = (currentBg + 1) % backgrounds.length;
+            backgrounds[currentBg].classList.add('active');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        setInterval(changeBackground, 8000);
+    </script>
+</body>
+</html>
